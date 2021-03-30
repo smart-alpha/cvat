@@ -214,6 +214,16 @@
                 "server: RQ - scheduler",
                 "server: git",
             ]
+        },
+        {
+            "name": "server: alpha",
+            "configurations": [
+                "server: django",
+                "server: RQ - default",
+                "server: RQ - low",
+                "server: RQ - scheduler",
+
+            ]
         }
     ]
 }
