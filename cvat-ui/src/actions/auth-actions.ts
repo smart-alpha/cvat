@@ -1,13 +1,26 @@
-// Copyright (C) 2020 Intel Corporation
+// Copyright (C) 2021 Intel Corporation
 //
 // SPDX-License-Identifier: MIT
 
+import firebase from 'firebase';
 import { ActionUnion, createAction, ThunkAction } from 'utils/redux';
 import { UserConfirmation } from 'components/register-page/register-form';
 import getCore from 'cvat-core-wrapper';
 import isReachable from 'utils/url-checker';
 
 const cvat = getCore();
+const firebaseConfig = {
+    apiKey: 'AIzaSyCRA0dVXjYAEDqOYKEUhgeMgcwJXyc9Ne8',
+    authDomain: 'cvat-react-test.firebaseapp.com',
+    projectId: 'cvat-react-test',
+    storageBucket: 'cvat-react-test.appspot.com',
+    messagingSenderId: '38822137775',
+    appId: '1:38822137775:web:55fccace1316af94f6695a',
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
 export enum AuthActionTypes {
     AUTHORIZED_SUCCESS = 'AUTHORIZED_SUCCESS',
@@ -104,8 +117,24 @@ export const loginAsync = (username: string, password: string): ThunkAction => a
     try {
         await cvat.server.login(username, password);
         const users = await cvat.users.get({ self: true });
-
+        console.log(users[0]);
         dispatch(authActions.loginSuccess(users[0]));
+    } catch (error) {
+        dispatch(authActions.loginFailed(error));
+    }
+};
+export const loginFirebase = (username: string, password: string): ThunkAction => async (dispatch) => {
+    console.log('Login Firebase Methoduna istek geldi.');
+    dispatch(authActions.login());
+
+    try {
+        console.log('Firebasea istek gönderildi.');
+        const response = db.collection('test').where('username', '==', username).where('password', '==', password);
+        const body = await response.get();
+        body.docs.forEach((item) => {
+            console.log(item.data());
+            dispatch(authActions.loginSuccess(item.data()));
+        });
     } catch (error) {
         dispatch(authActions.loginFailed(error));
     }

@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { connect } from 'react-redux';
-import LoginPageComponent from 'components/login-page/login-page';
+import LoginFirebaseComponent from 'components/login-page/login-firebase';
 import { CombinedState } from 'reducers/interfaces';
-import { loginAsync } from 'actions/auth-actions';
+import { loginFirebase } from 'actions/auth-actions';
 
 interface StateToProps {
     fetching: boolean;
@@ -13,7 +13,7 @@ interface StateToProps {
 }
 
 interface DispatchToProps {
-    onLogin: typeof loginAsync;
+    onLogin: typeof loginFirebase;
 }
 
 function mapStateToProps(state: CombinedState): StateToProps {
@@ -24,7 +24,7 @@ function mapStateToProps(state: CombinedState): StateToProps {
 }
 
 const mapDispatchToProps: DispatchToProps = {
-    onLogin: loginAsync,
+    onLogin: loginFirebase,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPageComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginFirebaseComponent);

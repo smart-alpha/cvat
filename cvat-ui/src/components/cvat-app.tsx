@@ -9,6 +9,10 @@ import Modal from 'antd/lib/modal';
 import notification from 'antd/lib/notification';
 import Spin from 'antd/lib/spin';
 import Text from 'antd/lib/typography/Text';
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import FirebaseLoginContainer from 'containers/login-page/firebase-login-page';
 import GlobalErrorBoundary from 'components/global-error-boundary/global-error-boundary';
 import Header from 'components/header/header';
 import ResetPasswordPageConfirmComponent from 'components/reset-password-confirm-page/reset-password-confirm-page';
@@ -26,10 +30,7 @@ import AnnotationPageContainer from 'containers/annotation-page/annotation-page'
 import LoginPageContainer from 'containers/login-page/login-page';
 import RegisterPageContainer from 'containers/register-page/register-page';
 import getCore from 'cvat-core-wrapper';
-import React from 'react';
 import GlobalHotKeys, { KeyMap } from 'utils/mousetrap-react';
-import { Redirect, Route, Switch } from 'react-router';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { NotificationsState } from 'reducers/interfaces';
 import { customWaViewHit } from 'utils/enviroment';
 import showPlatformNotification, { platformInfo, stopNotifications } from 'utils/platform-checker';
@@ -338,6 +339,7 @@ class CVATApplication extends React.PureComponent<CVATAppProps & RouteComponentP
                     <Switch>
                         <Route exact path='/auth/register' component={RegisterPageContainer} />
                         <Route exact path='/auth/login' component={LoginPageContainer} />
+                        <Route exact path='/auth/firebase' component={FirebaseLoginContainer} />
                         <Route
                             exact
                             path='/auth/login-with-token/:sessionId/:token'

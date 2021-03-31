@@ -8,17 +8,30 @@ import { Link, withRouter } from 'react-router-dom';
 import Title from 'antd/lib/typography/Title';
 import Text from 'antd/lib/typography/Text';
 import { Row, Col } from 'antd/lib/grid';
+// import firebase from 'firebase';
 
 import LoginForm, { LoginData } from './login-form';
 import CookieDrawer from './cookie-policy-drawer';
 
-interface LoginPageComponentProps {
+interface LoginFirebaseComponentProps {
     fetching: boolean;
     renderResetPassword: boolean;
     onLogin: (username: string, password: string) => void;
 }
+// const firebaseConfig = {
+//     apiKey: 'AIzaSyCRA0dVXjYAEDqOYKEUhgeMgcwJXyc9Ne8',
+//     authDomain: 'cvat-react-test.firebaseapp.com',
+//     projectId: 'cvat-react-test',
+//     storageBucket: 'cvat-react-test.appspot.com',
+//     messagingSenderId: '38822137775',
+//     appId: '1:38822137775:web:55fccace1316af94f6695a',
+// };
 
-function LoginPageComponent(props: LoginPageComponentProps & RouteComponentProps): JSX.Element {
+// // eslint-disable-next-line @typescript-eslint/no-unused-vars
+// const firebaseApp = firebase.initializeApp(firebaseConfig);
+// const db = firebase.firestore();
+
+function LoginFirebaseComponent(props: LoginFirebaseComponentProps & RouteComponentProps): JSX.Element {
     const sizes = {
         xs: { span: 14 },
         sm: { span: 14 },
@@ -26,7 +39,6 @@ function LoginPageComponent(props: LoginPageComponentProps & RouteComponentProps
         lg: { span: 4 },
         xl: { span: 4 },
     };
-
     const { fetching, onLogin, renderResetPassword } = props;
 
     return (
@@ -64,4 +76,4 @@ function LoginPageComponent(props: LoginPageComponentProps & RouteComponentProps
     );
 }
 
-export default withRouter(LoginPageComponent);
+export default withRouter(LoginFirebaseComponent);
