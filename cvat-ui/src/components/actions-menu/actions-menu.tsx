@@ -41,7 +41,6 @@ export default function ActionsMenuComponent(props: Props): JSX.Element {
         taskID,
         taskMode,
         bugTracker,
-        inferenceIsActive,
         dumpers,
         loaders,
         onClickMenu,
@@ -124,9 +123,6 @@ export default function ActionsMenuComponent(props: Props): JSX.Element {
                 taskDimension,
             })}
             {!!bugTracker && <Menu.Item key={Actions.OPEN_BUG_TRACKER}>Open bug tracker</Menu.Item>}
-            <Menu.Item disabled={inferenceIsActive} key={Actions.RUN_AUTO_ANNOTATION}>
-                Automatic annotation
-            </Menu.Item>
             <hr />
             <Menu.Item key={Actions.DELETE_TASK}>Delete</Menu.Item>
         </Menu>

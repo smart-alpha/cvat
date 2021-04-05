@@ -5,6 +5,7 @@
 import React from 'react';
 
 import SVGCVATLogo from './assets/cvat-logo.svg';
+import SVGSmartAlphaLogo from './assets/smartalpha-logo.svg';
 import SVGAccountIcon from './assets/account-icon.svg';
 import SVGEmptyTasksIcon from './assets/empty-tasks-icon.svg';
 import SVGMenuIcon from './assets/menu-icon.svg';
@@ -51,6 +52,7 @@ import SVGOpenCV from './assets/opencv.svg';
 import SVGFilterIcon from './assets/object-filter-icon.svg';
 
 export const CVATLogo = React.memo((): JSX.Element => <SVGCVATLogo />);
+export const SmartAlphaLogo = React.memo((): JSX.Element => <SVGSmartAlphaLogo />);
 export const AccountIcon = React.memo((): JSX.Element => <SVGAccountIcon />);
 export const EmptyTasksIcon = React.memo((): JSX.Element => <SVGEmptyTasksIcon />);
 export const MenuIcon = React.memo((): JSX.Element => <SVGMenuIcon />);

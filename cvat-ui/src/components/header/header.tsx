@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Intel Corporation
+// Copyright (C) 2021 Intel Corporation
 //
 // SPDX-License-Identifier: MIT
 
@@ -28,7 +28,7 @@ import Text from 'antd/lib/typography/Text';
 import getCore from 'cvat-core-wrapper';
 import consts from 'consts';
 
-import { CVATLogo, AccountIcon } from 'icons';
+import { SmartAlphaLogo, AccountIcon } from 'icons';
 import ChangePasswordDialog from 'components/change-password-modal/change-password-modal';
 import { switchSettingsDialog as switchSettingsDialogAction } from 'actions/settings-actions';
 import { logoutAsync, authActions } from 'actions/auth-actions';
@@ -143,8 +143,8 @@ function HeaderContainer(props: Props): JSX.Element {
         switchSettingsDialog,
         switchChangePasswordDialog,
         renderChangePasswordItem,
-        isAnalyticsPluginActive,
-        isModelsPluginActive,
+        // isAnalyticsPluginActive,
+        // isModelsPluginActive,
     } = props;
 
     const {
@@ -232,7 +232,11 @@ function HeaderContainer(props: Props): JSX.Element {
                 About
             </Menu.Item>
             {renderChangePasswordItem && (
-                <Menu.Item className='cvat-header-menu-change-password' onClick={(): void => switchChangePasswordDialog(true)} disabled={changePasswordFetching}>
+                <Menu.Item
+                    className='cvat-header-menu-change-password'
+                    onClick={(): void => switchChangePasswordDialog(true)}
+                    disabled={changePasswordFetching}
+                >
                     {changePasswordFetching ? <LoadingOutlined /> : <EditOutlined />}
                     Change password
                 </Menu.Item>
@@ -248,7 +252,7 @@ function HeaderContainer(props: Props): JSX.Element {
     return (
         <Layout.Header className='cvat-header'>
             <div className='cvat-left-header'>
-                <Icon className='cvat-logo-icon' component={CVATLogo} />
+                <Icon className='cvat-logo-icon' component={SmartAlphaLogo} />
                 <Button
                     className='cvat-header-button'
                     type='link'
@@ -273,7 +277,7 @@ function HeaderContainer(props: Props): JSX.Element {
                 >
                     Tasks
                 </Button>
-
+                {/*
                 {isModelsPluginActive && (
                     <Button
                         className='cvat-header-button'
@@ -302,7 +306,7 @@ function HeaderContainer(props: Props): JSX.Element {
                     >
                         Analytics
                     </Button>
-                )}
+                )} */}
             </div>
             <div className='cvat-right-header'>
                 <Button

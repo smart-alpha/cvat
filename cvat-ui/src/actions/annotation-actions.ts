@@ -977,8 +977,13 @@ export function saveAnnotationsAsync(sessionInstance: any, afterSave?: () => voi
 
         try {
             const saveJobEvent = await sessionInstance.logger.log(LogType.saveJob, {}, true);
-
             await sessionInstance.annotations.save((status: string) => {
+                console.log(sessionInstance);
+                // get shape coordinate <3
+                sessionInstance.annotations.export().then((res: any) => {
+                    console.log(res);
+                });
+                // console.log(sessionInstance.anotations.get());
                 dispatch({
                     type: AnnotationActionTypes.SAVE_UPDATE_ANNOTATIONS_STATUS,
                     payload: {
