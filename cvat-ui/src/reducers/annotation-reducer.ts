@@ -549,6 +549,8 @@ export default (state = defaultState, action: AnyAction): AnnotationState => {
             };
         }
         case AnnotationActionTypes.SHAPE_DRAWN: {
+            console.log(state);
+            console.log(state.canvas);
             return {
                 ...state,
                 canvas: {

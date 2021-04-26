@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import firebase from 'firebase';
+import axios from 'axios';
 import { ActionUnion, createAction, ThunkAction } from 'utils/redux';
 import { UserConfirmation } from 'components/register-page/register-form';
 import getCore from 'cvat-core-wrapper';
@@ -117,7 +118,6 @@ export const loginAsync = (username: string, password: string): ThunkAction => a
     try {
         await cvat.server.login(username, password);
         const users = await cvat.users.get({ self: true });
-        console.log(users[0]);
         dispatch(authActions.loginSuccess(users[0]));
     } catch (error) {
         dispatch(authActions.loginFailed(error));
@@ -126,15 +126,61 @@ export const loginAsync = (username: string, password: string): ThunkAction => a
 export const loginFirebase = (username: string, password: string): ThunkAction => async (dispatch) => {
     console.log('Login Firebase Methoduna istek geldi.');
     dispatch(authActions.login());
-
+    console.log(cvat.server);
     try {
         console.log('Firebasea istek gönderildi.');
         const response = db.collection('test').where('username', '==', username).where('password', '==', password);
         const body = await response.get();
-        body.docs.forEach((item) => {
-            console.log(item.data());
-            dispatch(authActions.loginSuccess(item.data()));
-        });
+        console.log(body.docs);
+        if (body.docs.length > 0) {
+            // dispatch(authActions.loginSuccess(item.data()));
+            console.log(body.docs[0].data());
+            const json = JSON.stringify({
+                username,
+                email: body.docs[0].data().email,
+                password1: password,
+                password2: password,
+            });
+            axios
+                .post('http://localhost:7000/api/v1/auth/register', json, {
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then((res) => {
+                    console.log(res);
+                })
+                .catch(async (err) => {
+                    console.log(err.response.data);
+                    if (err.response.data.email || err.response.data.username) {
+                        await cvat.server.login(username, password);
+                        const users = await cvat.users.get({ self: true });
+                        dispatch(authActions.loginSuccess(users[0]));
+                    } else {
+                        console.log('Böyle bir kayıt yok demektir');
+                    }
+                });
+        } else {
+            console.log('Böyle bir kayıt yok demektir');
+            const json = JSON.stringify({
+                username,
+                password1: password,
+                password2: password,
+            });
+            axios
+                .post('http://localhost:7000/api/v1/auth/register', json, {
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then(async (res) => {
+                    console.log(res);
+                    if (res.status === 201) {
+                        await cvat.server.login(username, password);
+                        const users = await cvat.users.get({ self: true });
+                        dispatch(authActions.loginSuccess(users[0]));
+                    }
+                })
+                .catch(async (err) => {
+                    console.log(err.response.data);
+                });
+        }
     } catch (error) {
         dispatch(authActions.loginFailed(error));
     }
