@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Intel Corporation
+// Copyright (C) 2021 Intel Corporation
 //
 // SPDX-License-Identifier: MIT
 
@@ -22,14 +22,18 @@ export default function ProjectsPageComponent(): JSX.Element {
     const projectFetching = useSelector((state: CombinedState) => state.projects.fetching);
     const projectsCount = useSelector((state: CombinedState) => state.projects.current.length);
     const gettingQuery = useSelector((state: CombinedState) => state.projects.gettingQuery);
-
+    console.log(gettingQuery);
     const anySearchQuery = !!Array.from(new URLSearchParams(search).keys()).filter((value) => value !== 'page').length;
 
     useEffect(() => {
         const searchParams: Partial<ProjectsQuery> = {};
+        console.log(searchParams);
+        console.log(new URLSearchParams(search));
         for (const [param, value] of new URLSearchParams(search)) {
             searchParams[param] = ['page', 'id'].includes(param) ? Number.parseInt(value, 10) : value;
         }
+        console.log(searchParams);
+        console.log(getProjectsAsync(searchParams));
         dispatch(getProjectsAsync(searchParams));
     }, []);
 

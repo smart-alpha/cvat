@@ -1,4 +1,4 @@
-// Copyright (C) 2020 Intel Corporation
+// Copyright (C) 2021 Intel Corporation
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,6 +25,7 @@ export interface TaskItemProps {
     hidden: boolean;
     activeInference: ActiveInference | null;
     cancelAutoAnnotation(): void;
+    userGroup: any;
 }
 
 class TaskItemComponent extends React.PureComponent<TaskItemProps & RouteComponentProps> {
@@ -136,9 +137,21 @@ class TaskItemComponent extends React.PureComponent<TaskItemProps & RouteCompone
     }
 
     private renderNavigation(): JSX.Element {
-        const { taskInstance, history } = this.props;
+        const { taskInstance, history, userGroup } = this.props;
         const { id } = taskInstance;
-
+        let actionsButton = null;
+        if (userGroup != null && userGroup.find((e: string) => e === 'admin')) {
+            actionsButton = (
+                <Row justify='end'>
+                    <Col className='cvat-item-open-task-actions'>
+                        <Text className='cvat-text-color'>Actions</Text>
+                        <Dropdown overlay={<ActionsMenuContainer taskInstance={taskInstance} />}>
+                            <Icon className='cvat-menu-icon' component={MenuIcon} />
+                        </Dropdown>
+                    </Col>
+                </Row>
+            );
+        }
         return (
             <Col span={4}>
                 <Row justify='end'>
@@ -157,15 +170,9 @@ class TaskItemComponent extends React.PureComponent<TaskItemProps & RouteCompone
                             Open
                         </Button>
                     </Col>
+                    {actionsButton}
                 </Row>
-                <Row justify='end'>
-                    <Col className='cvat-item-open-task-actions'>
-                        <Text className='cvat-text-color'>Actions</Text>
-                        <Dropdown overlay={<ActionsMenuContainer taskInstance={taskInstance} />}>
-                            <Icon className='cvat-menu-icon' component={MenuIcon} />
-                        </Dropdown>
-                    </Col>
-                </Row>
+
             </Col>
         );
     }

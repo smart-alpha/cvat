@@ -69,6 +69,7 @@ export function getProjectsAsync(query: Partial<ProjectsQuery>): ThunkAction {
             page: 1,
             ...query,
         };
+        console.log(filteredQuery);
         for (const key in filteredQuery) {
             if (filteredQuery[key] === null || typeof filteredQuery[key] === 'undefined') {
                 delete filteredQuery[key];
@@ -78,6 +79,7 @@ export function getProjectsAsync(query: Partial<ProjectsQuery>): ThunkAction {
         let result = null;
         try {
             result = await cvat.projects.get(filteredQuery);
+            console.log(await cvat.projects.get());
         } catch (error) {
             dispatch(projectActions.getProjectsFailed(error));
             return;
